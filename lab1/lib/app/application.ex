@@ -1,18 +1,34 @@
 defmodule App.Application do
-  # See https://hexdocs.pm/elixir/Application.html
-  # for more information on OTP Applications
-  @moduledoc false
+
 
   use Application
 
-  @impl true
+
   def start(_type, _args) do
-    Manager.start()
-    ServerConn.init()
 
     children = [
-      # Starts a worker by calling: App.Worker.start_link(arg)
-      # {App.Worker, arg}
+      %{
+        id: ServerConnection1,
+        start(Server_Connection, :start_link, ["http://localhost:4000/tweets/1"])
+      },
+      %{
+        id: ServerConnection2,
+        start(Server_Connection, :start_link, ["http://localhost:4000/tweets/2"])
+      },
+      %{
+        id: Router,
+        start(Router, :start_link, [""])
+      },
+      %{
+        id: Supervisor,
+        start(WorkerSupervisor, :start_link, [""])
+      },
+      %{
+        id: Worker,
+        start(Worker, :start_link, [""])
+      }
+
+
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
