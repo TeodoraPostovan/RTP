@@ -1,4 +1,4 @@
-defmodule Lab1 do
+defmodule Laboratories do
   @moduledoc """
   Documentation for `Lab1`.
   """
